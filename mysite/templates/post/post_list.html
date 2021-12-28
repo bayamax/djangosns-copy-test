@@ -1,1 +1,16 @@
-<h1>Hello Django!</h1>
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>投稿一覧</title>
+</head>
+
+<body>
+    <h2>投稿一覧</h2>
+    {% for post in post_list %}
+    <p>{{ post.content }}</p>
+    {% endfor %}
+</body>
+
+</html>
