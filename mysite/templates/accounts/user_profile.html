@@ -1,8 +1,17 @@
 {% extends "base.html" %}
 
+{% load static %}
+{% block link %}
+<link rel="stylesheet" type="text/css" href="{% static 'accounts/user_profile.css' %}">
+{% endblock %}
 {% block content %}
 <div id="profile_page">
     <div id="user_status">
+        {% if User.icon %}
+        <img src="{{ User.icon.url }}" class="user-icon">
+        {% else %}
+        <img src="{% static 'images/user_icon.png' %}" class="user-icon">
+        {% endif %}
         <h2>{{ User.username }}</h2>
         <p class="followBtn">フォローする</p>
     </div>
@@ -10,38 +19,4 @@
         <p class="list-t">{{ User.username }}さんの投稿一覧</p>
     </div>
 </div>
-
-<style type="text/css">
-    * {
-        margin: 0;
-        padding: 0;
-        background-repeat: repeat-y;
-    }
-
-    #profile_page {
-        padding-left: 3%;
-    }
-
-    #user_status {
-        display: inline-block;
-    }
-
-    .followBtn {
-        display: inline-block;
-        border: 1.5px solid #ddd;
-        padding: 2px 8px;
-        font-size: 16.5px;
-    }
-
-    #user_post {
-        display: inline-block;
-        vertical-align: top;
-        margin-left: 70px;
-    }
-
-    .list-t {
-        font-size: 1.9rem;
-        font-weight: 700;
-    }
-</style>
 {% endblock %}
