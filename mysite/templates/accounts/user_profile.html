@@ -7,7 +7,11 @@
 {% block content %}
 <div id="profile_page">
     <div id="user_status">
+        {% if User.icon %}
         <img src="{{ User.icon.url }}" class="user-icon">
+        {% else %}
+        <img src="{% static 'images/user_icon.png' %}" class="user-icon">
+        {% endif %}
         <h2>{{ User.username }}</h2>
         <p class="followBtn">フォローする</p>
     </div>
