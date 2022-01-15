@@ -3,6 +3,7 @@
 {% block content %}
 <div id="profile_page">
     <div id="user_status">
+        <img src="{{ User.icon.url }}" class="user-icon">
         <h2>{{ User.username }}</h2>
         <p class="followBtn">フォローする</p>
     </div>
@@ -42,6 +43,13 @@
     .list-t {
         font-size: 1.9rem;
         font-weight: 700;
+    }
+    .user-icon {
+        height: 80px;
+        width: 80px;
+        object-fit: cover;
+        border-radius: 50%;
+        border: 1.5px solid #eee;
     }
 </style>
 {% endblock %}
