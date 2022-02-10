@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'accounts.apps.AccountsConfig',
     'post.apps.PostConfig',
+    'cafe.apps.CafeConfig',
 ]
 
 MIDDLEWARE = [
