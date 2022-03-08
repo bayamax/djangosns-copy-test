@@ -4,14 +4,29 @@
 <head>
     <meta charset="utf-8">
     <title>投稿一覧</title>
+    
 </head>
+
 
 <body>
     {% extends "base.html" %}
-
+    {% load static %}
+    {% block link %}
+    <link rel="stylesheet" type="text/css" href="{% static 'cafe/cafe.css' %}">
+    {% endblock %}
     {% block content %}
     <h2>Cafetime</h2>
-    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d6560.3761122400465!2d135.49067977677646!3d34.70043642173832!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6000e68d184cbfed%3A0xcddcd36b1d3ff7b9!2z44CSNTMwLTAwMDEg5aSn6Ziq5bqc5aSn6Ziq5biC5YyX5Yy65qKF55Sw!5e0!3m2!1sja!2sjp!4v1645792742668!5m2!1sja!2sjp" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+    <div id="cafe_page">
+        <div id="user_status">
+            <img src="{% static 'images/27004osakakoiki01.png.webp' %}" class="cafe">
+        </div>
+    </div>
+    <li><a href="{% url 'cafe:cafe' %}">Cafeページへのリンク</a></li>
+    <form action="post">
+        {% csrf_token %}
+        <button type="submit" name="start_button">開始する</button>
+        <button type="submit" name="finish_button">終了する</button>
+    </form>
     <h1>投稿一覧</h1>
     {% for post in post_list %}
     <p>{{ post.content }}</p>

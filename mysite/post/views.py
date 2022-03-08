@@ -21,3 +21,4 @@ def post_create(request):
     else:
         form = PostCreateForm()
     return render(request, 'post/post_create.html', {'form': form})
+
