@@ -21,9 +21,9 @@
             <img src="{% static 'images/27004osakakoiki01.png.webp' %}" class="cafe">
         </div>
     </div>-->
-    <h3>{{ user.get_username }}</h3>
     {% if user.is_authenticated %}
             <li><a href="{% url 'post:post_create' %}">書き込む</a></li>
+            <li><a href="{% url 'accounts:profile' request.user.username %}">{{ user.get_username }}のページ</a></li>
             {% else %}
             <li><a href="{% url 'post:signup' %}">アカウント登録</a></li>
             <li><a href="{% url 'post:login' %}">ログインページ</a></li>
