@@ -6,6 +6,9 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy
 from django.views.generic.edit import CreateView
 from .forms import SignUpForm
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.views import(LoginView, LogoutView)
+from .forms import LoginForm
 
 class SignUp(CreateView):
     form_class = SignUpForm
@@ -38,3 +41,12 @@ def post_create(request):
         form = PostCreateForm()
     return render(request, 'post/post_create.html', {'form': form})
 
+class Login(LoginView):
+    """ログインページ"""
+    form_class = LoginForm
+    template_name = 'accounts/login.html'
+
+
+class Logout(LoginRequiredMixin, LogoutView):
+    """ログアウトページ"""
+    template_name = 'accounts/login.html'
