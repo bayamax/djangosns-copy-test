@@ -2,13 +2,14 @@ from django.shortcuts import render, redirect
 from .forms import PostCreateForm
 from .models import Post
 from django.contrib.auth import login
-from django.http import HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse_lazy
 from django.views.generic.edit import CreateView
 from .forms import SignUpForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import(LoginView, LogoutView)
 from .forms import LoginForm
+from .application import write_data
 
 class SignUp(CreateView):
     form_class = SignUpForm
@@ -50,3 +51,15 @@ class Login(LoginView):
 class Logout(LoginRequiredMixin, LogoutView):
     """ログアウトページ"""
     template_name = 'accounts/login.html'
+
+# Create your views here.
+def index(req):
+    return render(req, 'post/index.html')
+
+# ajaxでurl指定したメソッド
+def call_write_data(req):
+    if req.method == 'GET':
+        # write_data.pyのwrite_csv()メソッドを呼び出す。
+        # ajaxで送信したデータのうち"input_data"を指定して取得する。
+        write_data.write_csv(req.GET.get("input_data"))
+        return HttpResponse()
