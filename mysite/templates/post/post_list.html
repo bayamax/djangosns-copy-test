@@ -35,7 +35,7 @@
             {% endif %}
     <h1>投稿一覧</h1>
     {% for post in post_list %}
-    <p>{{ post.content }}</p>
+    <p>{{ post.author }},{{ post.created_at }},{{ post.content }}</p>
     {% endfor %}
     {% endblock %}
 </body>
