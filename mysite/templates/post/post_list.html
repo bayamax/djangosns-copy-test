@@ -35,7 +35,8 @@
             {% endif %}
     <h1>投稿一覧</h1>
     {% for post in post_list %}
-    <p>{{ post.author }},{{ post.created_at }},{{ post.content }}</p>
+    <a href="{% url 'accounts:profile' username=post.author %}">{{ post.author }}</a>  {{ post.created_at }}
+    <p>{{ post.content }}</p>
     {% endfor %}
     {% endblock %}
 </body>
