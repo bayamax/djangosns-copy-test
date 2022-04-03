@@ -23,6 +23,7 @@
     </div>-->
     {% if user.is_authenticated %}
             <li><a href="{% url 'post:post_create' %}">書き込む</a></li>
+            <li><a href="{% url 'community:community_create' %}">コミュニティ作成</a></li>
             <li><a href="{% url 'accounts:profile' request.user.username %}">{{ user.get_username }}のページ</a></li>
             <li>
                 <a class="nav-link" href="{% url 'post:logout' %}">
