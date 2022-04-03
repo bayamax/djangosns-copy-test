@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
-from .forms import CommunityCreateForm
-from .models import Community
+from .forms import CommunityCreateForm, CommunityPostCreateForm
+from .models import Community, CommunityPost
 
 # Create your views here.
 
@@ -18,7 +18,16 @@ def community_create(request):
     return render(request, 'community/community_create.html', {'form': form})
 
 def community_top(request, name):
-    context = {
-        'Community': Community.objects.get(name=name),
-    }
-    return render(request, 'community/community_top.html', context)
+    community = Community.objects.get(name=name)
+    communitypost = CommunityPost.objects.filter(community=community)
+    if request.method == "POST":
+        form = CommunityPostCreateForm(request.POST)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.author = request.user
+            post.community = community
+            post.save()
+            return redirect('community:community_top', name=name)
+    else:
+        form = CommunityPostCreateForm()
+    return render(request, 'community/community_top.html', {'form': form, 'Community': community, 'CommunityPost': communitypost})
