@@ -38,6 +38,11 @@
     {% for post in post_list %}
     <p>{{ post.author }},{{ post.created_at }},{{ post.content }}</p>
     {% endfor %}
+
+    <h1>コミュニティ一覧</h1>
+    {% for community in community_list %}
+    <p>{{ community.name }}</p>
+    {% endfor %}
     {% endblock %}
 </body>
 </html>
