@@ -8,3 +8,7 @@ class CommunityCreateForm(forms.ModelForm):
         fields = (
             'name','memo'
         )
+        labels={
+            'name':'コミュニティ名',
+            'memo':'コミュニティの説明',
+            }
