@@ -6,5 +6,8 @@
 <div id="community_top_page">
     <h2>「{{ Community.name }}」のコミュニティ</h2>
 </div>
+{% if Community.memo %}
+<p>{{ Community.memo }}</p>
+{% endif %}
 <p>作成者:{{ Community.created_by }},作成日時:{{ Community.created_at }}</p>
 {% endblock %}

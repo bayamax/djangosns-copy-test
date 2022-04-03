@@ -6,5 +6,5 @@ class CommunityCreateForm(forms.ModelForm):
     class Meta:
         model = Community
         fields = (
-            'name',
+            'name','memo'
         )

@@ -4,7 +4,8 @@ from django.contrib.auth import get_user_model
 # Create your models here.
 
 class Community(models.Model):
-    name = models.TextField()
+    name = models.CharField(max_length=50, unique=True)
+    memo = models.TextField(default=None, blank=True, null=True)
     created_by = models.ForeignKey(get_user_model(), default='', on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
 
