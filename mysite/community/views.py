@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from .forms import CommunityCreateForm
+from .models import Community
 
 # Create your views here.
 
@@ -15,3 +16,9 @@ def community_create(request):
     else:
         form = CommunityCreateForm()
     return render(request, 'community/community_create.html', {'form': form})
+
+def community_top(request, name):
+    context = {
+        'Community': Community.objects.get(name=name),
+    }
+    return render(request, 'community/community_top.html', context)

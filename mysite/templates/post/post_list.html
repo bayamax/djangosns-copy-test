@@ -41,7 +41,7 @@
 
     <h1>コミュニティ一覧</h1>
     {% for community in community_list %}
-    <p>{{ community.name }}</p>
+    <p><a href="{% url 'community:community_top' community.name %}">{{ community.name }}</a></p>
     {% endfor %}
     {% endblock %}
 </body>

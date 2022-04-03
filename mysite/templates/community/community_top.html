@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% block content %}
+<li><a href="{% url 'post:post_list' %}">トップページ</a></li>
+<div id="community_top_page">
+    <h2>「{{ Community.name }}」のコミュニティ</h2>
+</div>
+{% endblock %}
