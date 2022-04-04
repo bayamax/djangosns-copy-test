@@ -18,6 +18,10 @@
     </div>
     <div id="user_post">
         <p class="list-t">{{ User.username }}さんの投稿一覧</p>
+        {% for post in post_list %}
+        <a href="{% url 'accounts:profile' username=post.author %}">{{ post.author }}</a> {{ post.created_at }}
+        <p>{{ post.content }}</p>
+        {% endfor %}
     </div>
 </div>
 {% endblock %}
