@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from .forms import PostCreateForm
 from .models import Post
+from community.models import Community
 from django.contrib.auth import login
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse_lazy
@@ -28,6 +29,7 @@ class SignUp(CreateView):
 def post_list(request):
     context = {
         'post_list': Post.objects.all(),
+        'community_list': Community.objects.all()
     }
     return render(request, 'post/post_list.html', context)
 

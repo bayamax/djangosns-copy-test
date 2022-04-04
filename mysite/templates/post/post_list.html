@@ -23,6 +23,7 @@
     </div>-->
     {% if user.is_authenticated %}
             <li><a href="{% url 'post:post_create' %}">書き込む</a></li>
+            <li><a href="{% url 'community:community_create' %}">コミュニティ作成</a></li>
             <li><a href="{% url 'accounts:profile' request.user.username %}">{{ user.get_username }}のページ</a></li>
             <li>
                 <a class="nav-link" href="{% url 'post:logout' %}">
@@ -37,6 +38,11 @@
     {% for post in post_list %}
     <a href="{% url 'accounts:profile' username=post.author %}">{{ post.author }}</a>  {{ post.created_at }}
     <p>{{ post.content }}</p>
+    {% endfor %}
+
+    <h1>コミュニティ一覧</h1>
+    {% for community in community_list %}
+    <p><a href="{% url 'community:community_top' community.name %}">{{ community.name }}</a></p>
     {% endfor %}
     {% endblock %}
 </body>

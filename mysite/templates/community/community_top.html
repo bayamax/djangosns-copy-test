@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% block content %}
+<li><a href="{% url 'post:post_list' %}">トップページ</a></li>
+<div id="community_top_page">
+    <h2>「{{ Community.name }}」のコミュニティ</h2>
+</div>
+{% if Community.memo %}
+<p>{{ Community.memo }}</p>
+{% endif %}
+<p>作成者:{{ Community.created_by }},作成日時:{{ Community.created_at }}</p>
+
+<b>このコミュニティへの投稿一覧</b>
+{% for post in CommunityPost %}
+<p>{{ post.author }},{{ post.created_at }},{{ post.content }}</p>
+{% endfor %}
+
+<form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">コミュニティに投稿</button>
+</form>
+{% endblock %}
