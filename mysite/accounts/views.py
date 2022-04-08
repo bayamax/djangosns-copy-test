@@ -73,3 +73,17 @@ def unfollow_view(request, *args, **kwargs):
         messages.warning(request, 'あなたは{0}をフォローしませんでした'.format(following.username))
 
     return HttpResponseRedirect(reverse_lazy('accounts:profile', kwargs={'username': following.username}))
+
+def following_list(request, username):
+    context = {
+        'username': username,
+        'following': Connection.objects.filter(follower__username=username),
+    }
+    return render(request, 'accounts/following_list.html', context)
+
+def follower_list(request, username):
+    context = {
+        'username': username,
+        'follower': Connection.objects.filter(following__username=username),
+    }
+    return render(request, 'accounts/follower_list.html', context)

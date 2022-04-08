@@ -37,12 +37,12 @@
                 　　　　　　　
                 <!--フォロー数を表示-->
                 <p>フォロー数</p>
-                <h2>{{ following }}</h2>
+                <h2><a href="{% url 'accounts:following_list' User %}">{{ following }}</a></h2>
             </li>
             <li>
                 <!--フォロワー数を表示-->
                 <p>フォロワー数</p>
-                <h2>{{ follower }}</h2>
+                <h2><a href="{% url 'accounts:follower_list' User %}">{{ follower }}</a></h2>
             </li>
         </ul>
     </div>
