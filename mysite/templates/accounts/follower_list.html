@@ -11,9 +11,14 @@
         <h2>{{ username }}さんのフォロワーリスト</h2>
     </div>
     <div>
+        {% if follower %}
         {% for fw in follower %}
         <a href="{% url 'accounts:profile' username=fw.follower %}">{{ fw.follower }}</a>
         {% endfor %}
+        {% else %}
+        <p>まだフォロワーはいません</p>
+        {% endif %}
+
     </div>
 
 

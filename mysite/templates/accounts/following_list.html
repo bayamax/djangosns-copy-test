@@ -11,9 +11,13 @@
         <h2>{{ username }}さんのフォローリスト</h2>
     </div>
     <div>
+        {% if following %}
         {% for fw in following %}
         <a href="{% url 'accounts:profile' username=fw.following %}">{{ fw.following }}</a>
         {% endfor %}
+        {% else %}
+        <p>まだ誰もフォローしていません</p>
+        {% endif %}
     </div>
 
 
