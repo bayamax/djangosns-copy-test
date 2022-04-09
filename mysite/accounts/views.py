@@ -6,6 +6,7 @@ from post.models import Post
 from django.urls import reverse_lazy
 from django.http import HttpResponseRedirect
 from .models import User, Connection
+from django.views.generic import UpdateView
 
 
 def user_profile(request, username):
@@ -20,6 +21,16 @@ def user_profile(request, username):
             result = Connection.objects.filter(follower__username=request.user.username).filter(following__username=username)
             context['connected'] = True if result else False
     return render(request, 'accounts/user_profile.html', context)
+
+class UserUpdateView(UpdateView):
+    template_name = 'user_update.html'
+    model = User
+    fields = ('username', 'email', 'icon', 'introduction')
+    success_url = reverse_lazy('accounts:user_profile')
+
+    def form_valid(self, form):
+        form.save()
+        return super().form_valid(form)
 
 """フォロー"""
 @login_required
