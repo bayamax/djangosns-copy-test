@@ -11,6 +11,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import(LoginView, LogoutView)
 from .forms import LoginForm
 from .application import write_data
+from django.contrib.auth import get_user_model
 
 class SignUp(CreateView):
     form_class = SignUpForm
@@ -70,6 +71,20 @@ def call_write_data(req):
         write_data.write_csv(req.GET.get("input_data"))
         return HttpResponse()
 
-def reply_create(request,q):
-    topic = Post.objects.get(content=q)
-    return render(request, 'post/reply_create', {'topic': topic})
+def reply_create(request,comment_pk):
+    comment = get_object_or_404(Post, id=comment_pk)
+    post = comment
+    form = PostCreateForm(request.POST or None)
+    if request.method == 'POST':
+        reply = form.save(commit=False)
+        reply.parent = post
+        reply.author = request.user
+        reply.save()
+        return redirect('post:post_list')
+
+    context = {
+        'form': form,
+        'post': post,
+        'comment': comment,
+    }
+    return render(request, 'post/post_create.html', context)

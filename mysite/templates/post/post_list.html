@@ -37,7 +37,10 @@
     <h1>投稿一覧</h1>
     {% for post in post_list %}
     <a href="{% url 'accounts:profile' username=post.author %}">{{ post.author }}</a>  {{ post.created_at }}
-    <a href="{% url 'post:reply_create' q=post.content %}">{{ post.content }}</a>
+    <a href="{% url 'post:reply_create' comment_pk=post.id %}">{{ post.content }}</a>
+    {% with reply_list=comment.comment_set.all %}
+                        {% include 'post/includes/reply.html' %}
+                    {% endwith %}
     {% endfor %}
 
     {% for reply in reply_list %}
