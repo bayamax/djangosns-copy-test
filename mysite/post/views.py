@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import get_object_or_404, render, redirect
 from .forms import PostCreateForm
 from .models import Post
 from community.models import Community
@@ -29,7 +29,9 @@ class SignUp(CreateView):
 def post_list(request):
     context = {
         'post_list': Post.objects.all(),
+        'reply_list': Post.objects.filter(parent__isnull=False),
         'community_list': Community.objects.all()
+
     }
     return render(request, 'post/post_list.html', context)
 
@@ -67,3 +69,7 @@ def call_write_data(req):
         # ajaxで送信したデータのうち"input_data"を指定して取得する。
         write_data.write_csv(req.GET.get("input_data"))
         return HttpResponse()
+
+def reply_create(request,q):
+    topic = Post.objects.get(content=q)
+    return render(request, 'post/reply_create', {'topic': topic})

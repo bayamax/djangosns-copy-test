@@ -12,5 +12,6 @@ urlpatterns = [
     path('logout/', views.Logout.as_view(), name='logout'),
     path('index/', views.index, name='index'),
     path('ajax/', views.call_write_data, name='call_write_data'),
+    path('reply_create/<str:q>/', views.reply_create, name='reply_create')
 ]
 

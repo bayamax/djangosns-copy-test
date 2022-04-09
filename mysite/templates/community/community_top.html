@@ -13,7 +13,8 @@
 
 <b>このコミュニティへの投稿一覧</b>
 {% for post in CommunityPost %}
-<p>{{ post.author }},{{ post.created_at }},{{ post.content }}</p>
+<a href="{% url 'accounts:profile' username=post.author %}">{{ post.author }}</a>  {{ post.created_at }}
+<p>{{ post.content }}</p>
 {% endfor %}
 
 <form method="POST">
