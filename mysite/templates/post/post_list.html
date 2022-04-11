@@ -36,11 +36,10 @@
             {% endif %}
     <h1>投稿一覧</h1>
     {% for post in post_list %}
-    <a href="{% url 'accounts:profile' username=post.author %}">{{ post.author }}</a>  {{ post.created_at }}
-    <a href="{% url 'post:reply_create' comment_pk=post.id %}">{{ post.content }}</a>
-    {% with reply_list=comment.comment_set.all %}
-                        {% include 'post/includes/reply.html' %}
-                    {% endwith %}
+    <p>{{ post.display }}.<a href="{% url 'accounts:profile' username=post.author %}">{{ post.author }}</a>  {{ post.created_at }}</p>
+    <p><a href="{% url 'post:reply_create' comment_pk=post.id %}">{{ post.content }}</a></p>
+    <p>親コメid:{{ post.parent_id }}</p>
+    <p>コメid:{{ post.id }}</p>
     {% endfor %}
 
     {% for reply in reply_list %}

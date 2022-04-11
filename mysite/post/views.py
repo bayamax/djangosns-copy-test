@@ -11,7 +11,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import(LoginView, LogoutView)
 from .forms import LoginForm
 from .application import write_data
-from django.contrib.auth import get_user_model
+
 
 class SignUp(CreateView):
     form_class = SignUpForm
@@ -28,9 +28,34 @@ class SignUp(CreateView):
 
 
 def post_list(request):
+    tablesize = Post.objects.all()
+    tablesize.display = 0
+    cid = 0
+    counter = 1
+    while not Post.objects.filter(id=counter,display=0).first() is None:
+        comment = Post.objects.filter(id=counter,display=0).first()
+        cid = comment.id
+        if comment.parent is None:
+            comment.display = counter
+            comment.save()
+            counter = counter + 1
+        else:
+            while not Post.objects.filter(parent_id=cid,display=0).first() is None:
+                comment = Post.objects.filter(parent_id=cid,display=0).first()
+                if comment is None:
+                    cid = comment.parent_id
+                    counter = counter
+                else:
+                    comment.display = counter
+                    comment.save()
+                    cid = comment.id
+                    counter = counter + 1
+
+    Post.objects.order_by("display")
+
     context = {
         'post_list': Post.objects.all(),
-        'reply_list': Post.objects.filter(parent__isnull=False),
+        'reply_list': Post.objects.filter(parent__isnull=True),
         'community_list': Community.objects.all()
 
     }
