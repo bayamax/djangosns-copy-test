@@ -28,30 +28,30 @@ class SignUp(CreateView):
 
 
 def post_list(request):
-    tablesize = Post.objects.all()
-    tablesize.display = 0
-    cid = 0
-    counter = 1
-    while not Post.objects.filter(id=counter,display=0).first() is None:
-        comment = Post.objects.filter(id=counter,display=0).first()
-        cid = comment.id
-        if comment.parent is None:
+    counter = 0
+    size = Post.objects.all().count()
+    for counter in range(size):
+        counter = counter +1
+        comment = Post.objects.filter(id=counter).first()
+        comment.display = 0
+        comment.save()
+    
+    counter = 0
+    cid = None
+    pid = None
+
+    while not Post.objects.filter(display=0).first() is None:
+        comment = Post.objects.filter(parent_id=cid,display=0).first()
+        if comment is None:
+            counter = counter
+            cid = pid
+        else:
+            counter = counter + 1
             comment.display = counter
             comment.save()
-            counter = counter + 1
-        else:
-            while not Post.objects.filter(parent_id=cid,display=0).first() is None:
-                comment = Post.objects.filter(parent_id=cid,display=0).first()
-                if comment is None:
-                    cid = comment.parent_id
-                    counter = counter
-                else:
-                    comment.display = counter
-                    comment.save()
-                    cid = comment.id
-                    counter = counter + 1
+            cid = comment.id
+            pid = comment.parent_id
 
-    Post.objects.order_by("display")
 
     context = {
         'post_list': Post.objects.all(),
