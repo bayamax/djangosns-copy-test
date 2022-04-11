@@ -36,10 +36,13 @@
             {% endif %}
     <h1>投稿一覧</h1>
     {% for post in post_list %}
-    <p>{{ post.display }}.<a href="{% url 'accounts:profile' username=post.author %}">{{ post.author }}</a>  {{ post.created_at }}</p>
+    {% if post.parent_id == None %}
+    <p><a href="{% url 'accounts:profile' username=post.author %}">{{ post.author }}</a>  {{ post.created_at }}</p>
     <p><a href="{% url 'post:reply_create' comment_pk=post.id %}">{{ post.content }}</a></p>
-    <p>親コメid:{{ post.parent_id }}</p>
-    <p>コメid:{{ post.id }}</p>
+    {% else %}
+    <p>上への返信:<a href="{% url 'accounts:profile' username=post.author %}">{{ post.author }}</a>  {{ post.created_at }}</p>
+    <p><a href="{% url 'post:reply_create' comment_pk=post.id %}">{{ post.content }}</a></p>
+    {% endif %}
     {% endfor %}
 
     {% for reply in reply_list %}

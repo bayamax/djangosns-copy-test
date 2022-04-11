@@ -38,23 +38,22 @@ def post_list(request):
     
     counter = 0
     cid = None
-    pid = None
 
     while not Post.objects.filter(display=0).first() is None:
         comment = Post.objects.filter(parent_id=cid,display=0).first()
         if comment is None:
             counter = counter
-            cid = pid
+            comment = Post.objects.filter(id=cid).first()
+            cid = comment.parent_id
         else:
             counter = counter + 1
             comment.display = counter
             comment.save()
             cid = comment.id
-            pid = comment.parent_id
 
 
     context = {
-        'post_list': Post.objects.all(),
+        'post_list': Post.objects.order_by("display"),
         'reply_list': Post.objects.filter(parent__isnull=True),
         'community_list': Community.objects.all()
 
