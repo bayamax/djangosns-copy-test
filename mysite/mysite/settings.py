@@ -20,7 +20,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
 
 ALLOWED_HOSTS = []
 
@@ -74,12 +73,15 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
+
+# Database
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
 
 
 # Password validation
@@ -120,18 +122,15 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static'),
-]
+#STATICFILES_DIRS = [
+#    os.path.join(BASE_DIR, 'static'),
+#]
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-try:
-    from .local_settings import *
-except ImportError:
-    pass
+
 
 AUTH_USER_MODEL = 'accounts.User'
 
@@ -141,3 +140,36 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 LOGIN_URL = '/login' 
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL='/'
+
+DEBUG = False
+
+try:
+    # 存在する場合、ローカルの設定読み込み
+    from .local_settings import *
+except ImportError:
+    pass
+
+if not DEBUG:
+    # Heroku settings
+
+    # staticの設定
+    import os
+    import django_heroku
+
+    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+    # Static files (CSS, JavaScript, Images)
+    STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+    STATIC_URL = '/static/'
+
+    # Extra places for collectstatic to find static files.
+    STATICFILES_DIRS = (
+        os.path.join(BASE_DIR, 'static'),
+    )
+
+    MIDDLEWARE += [
+        'whitenoise.middleware.WhiteNoiseMiddleware',
+    ]
+
+    # HerokuのConfigを読み込み
+    django_heroku.settings(locals())
