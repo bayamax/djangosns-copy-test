@@ -21,25 +21,18 @@
         </div>
     </div>-->
     {% if user.is_authenticated %}
-            <li><a href="{% url 'post:post_create' %}">書き込む</a></li>
             <li><a href="{% url 'community:community_create' %}">コミュニティ作成</a></li>
             <li><a href="{% url 'post:index' %}">csv書き出し</a></li>
+            <li><a href="{% url 'accounts:profile' request.user.username %}">{{ user.get_username }}のページ</a></li>
+            <li>
+                <a class="nav-link" href="{% url 'post:logout' %}">
+                <i class="fa fa-fw fa-sign-out"></i>ログアウト</a>
+            </li>
+            {% else %}
+            <li><a href="{% url 'post:signup' %}">アカウント登録</a></li>
+            <li><a href="{% url 'post:login' %}">ログインページ</a></li>
             {% endif %}
-    <h1>投稿一覧</h1>
-    {% for post in post_list %}
-    {% if post.parent_id == None %}
-    <p><a href="{% url 'accounts:profile' username=post.author %}">{{ post.author }}</a>  {{ post.created_at }}</p>
-    <p><a href="{% url 'post:reply_create' comment_pk=post.id %}">{{ post.content }}</a></p>
-    {% else %}
-    <p>上への返信:<a href="{% url 'accounts:profile' username=post.author %}">{{ post.author }}</a>  {{ post.created_at }}</p>
-    <p><a href="{% url 'post:reply_create' comment_pk=post.id %}">{{ post.content }}</a></p>
-    {% endif %}
-    {% endfor %}
-
-    {% for reply in reply_list %}
-    <p>{{ reply.text }}</p>
-    {% endfor %}
-
+            
     <h1>コミュニティ一覧</h1>
     {% for community in community_list %}
     <p><a href="{% url 'community:community_top' community.name %}">{{ community.name }}</a></p>

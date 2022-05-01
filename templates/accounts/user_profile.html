@@ -14,12 +14,13 @@
         <img src="{% static 'images/user_icon.png' %}" class="user-icon">
         {% endif %}
         <h2>{{ User.username }}</h2>
+        <p>{{ User.introduction }}</p>
     </div>
     <div class="button_field">
     
         <!--もしプロフィールの遷移先が自分のプロフィールである場合の表示ボタン-->
         {% if User.username == user.get_username %}
-        <a href="{% url 'accounts:profile' User %}" class="followBtn">プロフィール編集</a>
+        <a href="{% url 'accounts:user_update' User.id %}" class="followBtn">プロフィール編集</a>
         　　　　
         <!--プロフィールの遷移先が自分がフォローしているユーザーの場合の表示ボタン-->
         {% elif connected %}

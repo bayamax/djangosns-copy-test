@@ -1,11 +1,13 @@
 from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import UserPassesTestMixin
 from django.shortcuts import render
 from post.models import Post
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.http import HttpResponseRedirect
 from .models import User, Connection
+from django.views.generic import UpdateView
 
 
 def user_profile(request, username):
@@ -20,6 +22,25 @@ def user_profile(request, username):
             result = Connection.objects.filter(follower__username=request.user.username).filter(following__username=username)
             context['connected'] = True if result else False
     return render(request, 'accounts/user_profile.html', context)
+
+class OnlyYouMixin(UserPassesTestMixin):
+    raise_exception = True
+
+    def test_func(self):
+        user = self.request.user
+        return user.pk == self.kwargs['pk'] or user.is_superuser
+
+class UserUpdateView(OnlyYouMixin, UpdateView):
+    template_name = 'accounts/user_update.html'
+    model = User
+    fields = ('username', 'email', 'icon', 'introduction')
+
+    def get_success_url(self):
+        return reverse('accounts:profile', kwargs={'username': User.objects.get(pk=self.object.pk).username})
+
+    def form_valid(self, form):
+        form.save()
+        return super().form_valid(form)
 
 """フォロー"""
 @login_required
