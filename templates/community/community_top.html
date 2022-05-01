@@ -37,9 +37,9 @@
 
         <p class="pb-3 mb-0 small lh-sm border-bottom">
             {% if post.parent_id == None %}
-            <strong class="d-block text-gray-dark"><a href="{% url 'accounts:profile' username=Community.created_by %}">{{ post.author }}</a> <small>{{ post.created_at }}</small></strong>
+            <strong class="d-block text-gray-dark"><a href="{% url 'accounts:profile' username=post.author %}">{{ post.author }}</a> <small>{{ post.created_at }}</small></strong>
             {% else %}
-            <strong class="d-block text-gray-dark">{{ post.parent }}への返信:<a href="{% url 'accounts:profile' username=Community.created_by %}">{{　post.author }}</a> <small>{{ post.created_at }}</small></strong>
+            <strong class="d-block text-gray-dark">{{ post.parent }}への返信:<a href="{% url 'accounts:profile' username=post.author %}">{{　post.author }}</a> <small>{{ post.created_at }}</small></strong>
             {% endif %}
             <a href="{% url 'community:reply_create' comment_pk=post.id name=Community.name%}">{{ post.content }}</a>
         </p>
