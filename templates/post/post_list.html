@@ -25,7 +25,7 @@
             <li><a href="{% url 'post:index' %}">csv書き出し</a></li>
             <li><a href="{% url 'accounts:profile' request.user.username %}">{{ user.get_username }}のページ</a></li>
             <li>
-                <a class="nav-link" href="{% url 'post:logout' %}">
+                <a href="{% url 'post:logout' %}">
                 <i class="fa fa-fw fa-sign-out"></i>ログアウト</a>
             </li>
             {% else %}
