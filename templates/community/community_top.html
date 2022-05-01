@@ -41,7 +41,8 @@
             {% else %}
             <strong class="d-block text-gray-dark">{{ post.parent }}への返信:<a href="{% url 'accounts:profile' username=post.author %}">{{　post.author }}</a> <small>{{ post.created_at }}</small></strong>
             {% endif %}
-            <a href="{% url 'community:reply_create' comment_pk=post.id name=Community.name%}">{{ post.content }}</a>
+            <font size="4">{{ post.content }}</font>
+            <a href="{% url 'community:reply_create' comment_pk=post.id name=Community.name%}">返信</a>
         </p>
     </div>
     {% endfor %}
