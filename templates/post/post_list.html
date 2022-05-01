@@ -23,14 +23,6 @@
     {% if user.is_authenticated %}
             <li><a href="{% url 'community:community_create' %}">コミュニティ作成</a></li>
             <li><a href="{% url 'post:index' %}">csv書き出し</a></li>
-            <li><a href="{% url 'accounts:profile' request.user.username %}">{{ user.get_username }}のページ</a></li>
-            <li>
-                <a href="{% url 'post:logout' %}">
-                <i class="fa fa-fw fa-sign-out"></i>ログアウト</a>
-            </li>
-            {% else %}
-            <li><a href="{% url 'post:signup' %}">アカウント登録</a></li>
-            <li><a href="{% url 'post:login' %}">ログインページ</a></li>
             {% endif %}
             
     <h1>コミュニティ一覧</h1>
