@@ -156,6 +156,7 @@ except ImportError:
     pass
 
 if not DEBUG:
+    SECRET_KEY = os.environ['SECRET_KEY']
     # Heroku settings
     # staticの設定
     import os
