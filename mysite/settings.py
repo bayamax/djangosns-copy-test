@@ -153,7 +153,7 @@ except ImportError:
 
 if not DEBUG:
     # Heroku settings
-
+    DEBUG = True
     # staticの設定
     import os
     import django_heroku
