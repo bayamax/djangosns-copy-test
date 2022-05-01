@@ -22,7 +22,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["aqueous-plateau-41673.herokuapp.com"]
 
 
 # Application definition
@@ -80,6 +80,10 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
+import dj_database_url
+db_from_env = dj_database_url.config()
+DATABASES['default'].update(db_from_env)
 
 
 # Password validation
@@ -153,7 +157,6 @@ except ImportError:
 
 if not DEBUG:
     # Heroku settings
-    DEBUG = True
     # staticの設定
     import os
     import django_heroku
