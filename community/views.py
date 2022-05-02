@@ -77,4 +77,4 @@ def reply_create(request,comment_pk,name):
         'post': post,
         'comment': comment,
     }
-    return render(request, 'post/post_create.html', context)
+    return render(request, 'community/reply_create.html', context)

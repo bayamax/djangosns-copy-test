@@ -4,7 +4,6 @@
     {% block content %}
     <main>
         <h2>アカウント登録</h2>
-        <li><a href="{% url 'post:post_list' %}">トップページ</a></li>
         {# signup処理部分 #}
         <form method="post" action="{% url 'post:signup' %}">
             {% csrf_token %}

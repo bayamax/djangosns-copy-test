@@ -4,7 +4,6 @@
     {% block content %}
     <main>
         <h2>プロフィール編集</h2>
-        <li><a href="{% url 'post:post_list' %}">トップページ</a></li>
         <form method="post">
             {% csrf_token %}
             {{ form.as_p }}

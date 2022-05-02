@@ -15,7 +15,6 @@
     <link rel="stylesheet" type="text/css" href="{% static 'cafe/cafe.css' %}">
     {% endblock %}
     {% block content %}
-    <h2>Cafetime</h2>
     <!--<div id="cafe_page">
         <div id="user_status">
             <img src="{% static 'images/27004osakakoiki01.png.webp' %}" class="cafe">
@@ -23,14 +22,7 @@
     </div>-->
     {% if user.is_authenticated %}
             <li><a href="{% url 'community:community_create' %}">コミュニティ作成</a></li>
-            <li><a href="{% url 'accounts:profile' request.user.username %}">{{ user.get_username }}のページ</a></li>
-            <li>
-                <a class="nav-link" href="{% url 'post:logout' %}">
-                <i class="fa fa-fw fa-sign-out"></i>ログアウト</a>
-            </li>
-            {% else %}
-            <li><a href="{% url 'post:signup' %}">アカウント登録</a></li>
-            <li><a href="{% url 'post:login' %}">ログインページ</a></li>
+            <li><a href="{% url 'post:index' %}">csv書き出し</a></li>
             {% endif %}
             
     <h1>コミュニティ一覧</h1>

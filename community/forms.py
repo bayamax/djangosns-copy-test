@@ -21,7 +21,7 @@ class CommunityPostCreateForm(forms.ModelForm):
         )
         widgets = {
             'content': forms.Textarea(
-                attrs={'rows': 10, 'cols': 30, 'placeholder': 'ここに入力'}
+                attrs={'rows': 3, 'cols': 50, 'placeholder': 'ここに入力'}
             ),
         }
         labels={
