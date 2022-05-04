@@ -133,17 +133,8 @@ STATIC_URL = '/static/'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-<<<<<<< HEAD:mysite/settings.py
-"""
-try:
-    from .local_settings import *
-except ImportError:
-    pass
-"""
-=======
 
 
->>>>>>> 5d245b9917568b122aafb728eee91aad29644a33:mysite/mysite/settings.py
 
 AUTH_USER_MODEL = 'accounts.User'
 
@@ -163,22 +154,13 @@ except ImportError:
     pass
 
 if not DEBUG:
-<<<<<<< HEAD:mysite/settings.py
-    SECRET_KEY = os.environ['SECRET_KEY']
-    # Heroku settings
-=======
     # Heroku settings
 
->>>>>>> 5d245b9917568b122aafb728eee91aad29644a33:mysite/mysite/settings.py
     # staticの設定
     import os
     import django_heroku
 
-<<<<<<< HEAD:mysite/settings.py
-    BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-=======
     BASE_DIR = os.path.dirname(os.path.abspath(__file__))
->>>>>>> 5d245b9917568b122aafb728eee91aad29644a33:mysite/mysite/settings.py
 
     # Static files (CSS, JavaScript, Images)
     STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
