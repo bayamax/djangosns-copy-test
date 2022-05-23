@@ -22,7 +22,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["127.0.0.1","aqueous-plateau-41673.herokuapp.com","thawing-depths-43984"]
+ALLOWED_HOSTS = ["127.0.0.1","aqueous-plateau-41673.herokuapp.com","thawing-depths-43984","localhost"]
 
 
 # Application definition
@@ -38,6 +38,8 @@ INSTALLED_APPS = [
     'post.apps.PostConfig',
     'cafe.apps.CafeConfig',
     'community.apps.CommunityConfig',
+    'testmap.apps.TestmapConfig',
+    'django.contrib.gis',         # 追加：GIS機能
 ]
 
 MIDDLEWARE = [
@@ -74,10 +76,14 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-DATABASES = {
+
+DATABASES = {    
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.contrib.gis.db.backends.postgis',
+        'HOST': 'localhost',    # DBホスト
+        'NAME': 'postgisdb',    # データベース名
+        'USER': 'dbuser',        # DBユーザ名
+        'PASSWORD': 'passwords', # DBパスワード
     }
 }
 
