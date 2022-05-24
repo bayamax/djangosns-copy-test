@@ -40,6 +40,11 @@ INSTALLED_APPS = [
     'community.apps.CommunityConfig',
     'testmap.apps.TestmapConfig',
     'django.contrib.gis',         # 追加：GIS機能
+    'leaflet',
+    'django_filters', 
+    'rest_framework',
+    'rest_framework_gis',
+    'markdown',
 ]
 
 MIDDLEWARE = [

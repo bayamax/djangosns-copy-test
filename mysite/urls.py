@@ -13,20 +13,30 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.contrib import admin
+from django.contrib.gis import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
-
+from rest_framework.routers import DefaultRouter
+from testmap.views import BorderViewSet
+from testmap.views import index, GeojsonAPIView
+from django.views.generic.base import RedirectView
 
 app_name = 'caffetime'
 
+router = DefaultRouter()
+router.register('border', BorderViewSet)
+
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('api/', include(router.urls)),
     path('', include('post.urls')),
     path('accounts/', include('accounts.urls')),
     path('cafe/', include('cafe.urls')),
     path('community/', include('community.urls')),
+    path('', index, name='world_index'),
+    path('testmap/geojson/', GeojsonAPIView.as_view(), name='geojson_view'),
+    path('testmap/', include('testmap.urls')),
     ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
