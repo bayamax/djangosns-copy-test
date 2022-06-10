@@ -124,8 +124,6 @@ def coordinates_form(request):
         if form.is_valid():
             form.save()
             post = form.save(commit=False)
-            post.lat = request.lat
-            post.lon = request.lon
             post.save()
             return redirect('post:maps')
     else:
