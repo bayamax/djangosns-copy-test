@@ -11,6 +11,8 @@ urlpatterns = [
     path('login/', views.Login.as_view(), name='login'),
     path('logout/', views.Logout.as_view(), name='logout'),
     path('index/', views.index, name='index'),
+    path('maps_form/',views.coordinates_form, name = 'coordinates-form'),
+    path('maps/', views.maps, name = 'maps'),
     path('ajax/', views.call_write_data, name='call_write_data'),
     path('include/reply/<int:comment_pk>/', views.reply_create, name='reply_create')
 ]

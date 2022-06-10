@@ -10,7 +10,11 @@ from .forms import SignUpForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import(LoginView, LogoutView)
 from .forms import LoginForm
+from .forms import CoordinatesForm
 from .application import write_data
+from .models import Coordenadas
+import folium
+import branca
 
 
 class SignUp(CreateView):
@@ -112,3 +116,58 @@ def reply_create(request,comment_pk):
         'comment': comment,
     }
     return render(request, 'post/post_create.html', context)
+
+
+def coordinates_form(request):
+    if request.method == 'POST':
+        form = CoordinatesForm(request.POST or None)
+        if form.is_valid():
+            form.save()
+            post = form.save(commit=False)
+            post.lat = request.lat
+            post.lon = request.lon
+            post.save()
+            return redirect('post:maps')
+        context = {
+            'form' : form,
+            }
+        return render(request, 'post/maps_form.html', context)
+
+def maps(request):
+    url = 'http://127.0.0.1:8000'
+    html=f'<a href={url}> コミュニティ </a>'
+    iframe = branca.element.IFrame(html=html, width=300, height=500)
+    popup = folium.Popup(iframe, max_width=300)
+    map = folium.Map(location=[35.690921, 139.700258], zoom_start=15)
+    folium.Marker(
+    location=[35.690921, 139.700258],
+    popup = popup,
+    icon=folium.Icon(color='red', icon='home')
+    ).add_to(map)
+    #folium.CircleMarker(
+    #location=[35.690921, 139.700258],
+    #popup='Shinjuku Station',
+    #radius=40,
+    #color='#ff0000',
+    #fill_color='#0000ff'
+    #).add_to(map)
+    #coordenadas = list(Coordenadas.objects.values_list('lat','lon'))[-1]
+
+    #map = folium.Map(coordenadas)
+    #folium.Marker(coordenadas).add_to(map)
+    #folium.raster_layers.TileLayer('Stamen Terrain').add_to(map)
+    #folium.raster_layers.TileLayer('Stamen Toner').add_to(map)
+    #folium.raster_layers.TileLayer('Stamen Watercolor').add_to(map)
+    #folium.LayerControl().add_to(map)
+
+
+    map = map._repr_html_()
+    context = {
+        'map': map,
+    }
+    return render(request, 'post/maps.html', context)
+
+def maps_comunity(request,mc):
+    comment = Post.objects.filter(id=mc).first()
+
+    return render(request, 'post/post_list.html',{'post':comment})

@@ -13,3 +13,8 @@ class Post(models.Model):
 
     def __str__(self):
         return self.content
+
+class Coordenadas(models.Model):
+    lat = models.FloatField(max_length=20,default=0)
+    lon = models.FloatField(max_length=20,default=0)
+    
