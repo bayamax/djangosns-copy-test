@@ -12,8 +12,8 @@ from django.contrib.auth.views import(LoginView, LogoutView)
 from .forms import LoginForm
 from .forms import CoordinatesForm
 from .application import write_data
-from .models import Coordenadas
 import folium
+from folium import plugins
 import branca
 
 
@@ -128,14 +128,15 @@ def coordinates_form(request):
             post.lon = request.lon
             post.save()
             return redirect('post:maps')
-        context = {
+    else:
+        form = CoordinatesForm()
+    context = {
             'form' : form,
             }
-        return render(request, 'post/maps_form.html', context)
+    return render(request, 'post/maps_form.html', context)
 
 def maps(request):
-    url = 'http://127.0.0.1:8000'
-    html=f'<a href={url}> コミュニティ </a>'
+    html='<a href="http://127.0.0.1:8000/"> コミュニティ </a>'
     iframe = branca.element.IFrame(html=html, width=300, height=500)
     popup = folium.Popup(iframe, max_width=300)
     map = folium.Map(location=[35.690921, 139.700258], zoom_start=15)
