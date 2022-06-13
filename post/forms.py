@@ -33,9 +33,4 @@ class LoginForm(AuthenticationForm):
         for field in self.fields.values():
             field.widget.attrs['class'] = 'form-control'
             field.widget.attrs['placeholder'] = field.label
-
-class CoordinatesForm(forms.ModelForm):
-        class Meta:
-            model = Coordenadas
-            fields = ('lat','lon')
             

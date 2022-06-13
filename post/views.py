@@ -3,18 +3,13 @@ from .forms import PostCreateForm
 from .models import Post
 from community.models import Community
 from django.contrib.auth import login
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy
 from django.views.generic.edit import CreateView
 from .forms import SignUpForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import(LoginView, LogoutView)
 from .forms import LoginForm
-from .forms import CoordinatesForm
-from .application import write_data
-import folium
-from folium import plugins
-import branca
 
 
 class SignUp(CreateView):
@@ -91,14 +86,6 @@ class Logout(LoginRequiredMixin, LogoutView):
 def index(req):
     return render(req, 'post/index.html')
 
-# ajaxでurl指定したメソッド
-def call_write_data(req):
-    if req.method == 'GET':
-        # write_data.pyのwrite_csv()メソッドを呼び出す。
-        # ajaxで送信したデータのうち"input_data"を指定して取得する。
-        write_data.write_csv(req.GET.get("input_data"))
-        return HttpResponse()
-
 def reply_create(request,comment_pk):
     comment = get_object_or_404(Post, id=comment_pk)
     post = comment
@@ -116,57 +103,3 @@ def reply_create(request,comment_pk):
         'comment': comment,
     }
     return render(request, 'post/post_create.html', context)
-
-
-def coordinates_form(request):
-    if request.method == 'POST':
-        form = CoordinatesForm(request.POST or None)
-        if form.is_valid():
-            form.save()
-            post = form.save(commit=False)
-            post.save()
-            return redirect('post:maps')
-    else:
-        form = CoordinatesForm()
-    context = {
-            'form' : form,
-            }
-    return render(request, 'post/maps_form.html', context)
-
-def maps(request):
-    html='<a href="http://127.0.0.1:8000/"> コミュニティ </a>'
-    iframe = branca.element.IFrame(html=html, width=300, height=500)
-    popup = folium.Popup(iframe, max_width=300)
-    map = folium.Map(location=[35.690921, 139.700258], zoom_start=15)
-    folium.Marker(
-    location=[35.690921, 139.700258],
-    popup = popup,
-    icon=folium.Icon(color='red', icon='home')
-    ).add_to(map)
-    #folium.CircleMarker(
-    #location=[35.690921, 139.700258],
-    #popup='Shinjuku Station',
-    #radius=40,
-    #color='#ff0000',
-    #fill_color='#0000ff'
-    #).add_to(map)
-    #coordenadas = list(Coordenadas.objects.values_list('lat','lon'))[-1]
-
-    #map = folium.Map(coordenadas)
-    #folium.Marker(coordenadas).add_to(map)
-    #folium.raster_layers.TileLayer('Stamen Terrain').add_to(map)
-    #folium.raster_layers.TileLayer('Stamen Toner').add_to(map)
-    #folium.raster_layers.TileLayer('Stamen Watercolor').add_to(map)
-    #folium.LayerControl().add_to(map)
-
-
-    map = map._repr_html_()
-    context = {
-        'map': map,
-    }
-    return render(request, 'post/maps.html', context)
-
-def maps_comunity(request,mc):
-    comment = Post.objects.filter(id=mc).first()
-
-    return render(request, 'post/post_list.html',{'post':comment})

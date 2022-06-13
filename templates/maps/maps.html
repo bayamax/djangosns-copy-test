@@ -6,8 +6,8 @@
           <title>Map</title>
        </head>
        <body>
+        <li><a href="{% url 'post:post_list' %}">トップページ</a></li>
            <div> {{ map | safe }}</div>
-           <li><a href="{% url 'post:coordinates-form' %}">座標</a></li>
 
         </body>
         </html>

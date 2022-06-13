@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'post.apps.PostConfig',
     'cafe.apps.CafeConfig',
     'community.apps.CommunityConfig',
+    'maps.apps.MapConfig',
 ]
 
 MIDDLEWARE = [

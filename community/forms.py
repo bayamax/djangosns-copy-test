@@ -6,11 +6,13 @@ class CommunityCreateForm(forms.ModelForm):
     class Meta:
         model = Community
         fields = (
-            'name','memo'
+            'name','memo','lat','lon'
         )
         labels={
             'name':'コミュニティ名',
             'memo':'コミュニティの説明',
+            'lat':'x座標',
+            'lon':'y座標',
             }
 
 class CommunityPostCreateForm(forms.ModelForm):

@@ -22,8 +22,7 @@
     </div>-->
     {% if user.is_authenticated %}
             <li><a href="{% url 'community:community_create' %}">コミュニティ作成</a></li>
-            <li><a href="{% url 'post:maps' %}">地図</a></li>
-            <li><a href="{% url 'post:coordinates-form' %}">座標</a></li>
+            <li><a href="{% url 'maps:maps' %}">地図</a></li>
             {% endif %}
             
     <h1>コミュニティ一覧</h1>
