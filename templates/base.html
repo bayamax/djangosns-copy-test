@@ -68,6 +68,7 @@
             <ul class="nav navbar-nav navbar-right">
                 {% if request.user.is_authenticated %}
                 <li><a href="{% url 'accounts:profile' request.user.username %}">プロフィール</a></li>
+                <li><a href="{% url 'community:community_create' %}">コミュニティ作成</a></li>
                 {% endif %}
                 <li><a href="{% url 'admin:index' %}">管理ページ</a></li>
             </ul>
