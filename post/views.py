@@ -75,8 +75,8 @@ def post_list(request):
             l = Community.objects.filter(id = counter).first()
             num = l.id
             name =  Community.objects.get(id =num)
-            x = l.lat
-            y = l.lon
+            x = l.lon
+            y = l.lat
             url = request._current_scheme_host+'/community/community_top/' + str(name) + '/'
             html = '<a href = "'+url + '" target="_blank" rel="noopener noreferrer">' + str(name) + '</a>'
             iframe = branca.element.IFrame(html=html, width=300, height=500)
