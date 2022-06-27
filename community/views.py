@@ -2,17 +2,42 @@ from ast import IsNot
 from django.shortcuts import get_object_or_404, render,render, redirect
 from .forms import CommunityCreateForm, CommunityPostCreateForm
 from .models import Community, CommunityPost
+import requests
+from bs4 import BeautifulSoup
 
 # Create your views here.
+
+geocoding_URL = 'http://www.geocoding.jp/api/'
+
+def coordinate(address):
+    """
+    addressに住所を指定すると緯度経度を返す。
+
+    >>> coordinate('東京都文京区本郷7-3-1')
+    ['35.712056', '139.762775']
+    """
+    payload = {'q': address}
+    html = requests.get(geocoding_URL, params=payload)
+    soup = BeautifulSoup(html.content, "html.parser")
+    if soup.find('error'):
+        raise ValueError(f"Invalid address submitted. {address}")
+    latitude = float(soup.find('lat').string)
+    longitude = float(soup.find('lng').string)
+    return [latitude, longitude]
 
 
 def community_create(request):
     if request.method == "POST":
         form = CommunityCreateForm(request.POST)
         if form.is_valid():
-            post = form.save(commit=False)
-            post.created_by = request.user
-            post.save()
+            name = form.cleaned_data["name"]
+            memo = form.cleaned_data["memo"]
+            zip21 = form.cleaned_data["zip21"]
+            zip22 = form.cleaned_data["zip22"]
+            addr21 = form.cleaned_data["addr21"]
+            lat, lon = coordinate(addr21)
+            obj = Community(name=name, memo=memo, created_by = request.user, lat = lat, lon = lon, zip21 =zip21, zip22=zip22, addr21=addr21)
+            obj.save()
             return redirect('post:post_list')
     else:
         form = CommunityCreateForm()
