@@ -18,7 +18,7 @@ class Community(models.Model):
         max_length=4,
         default='0'
     )
-    addr21 = models.CharField(default=None, max_length=100)
+    addr21 = models.CharField(default='530-0001', max_length=100)
 
     def __str__(self):
         return self.name
