@@ -62,6 +62,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     date_joined = models.DateTimeField(default=timezone.now)
     objects = UserManager()
     USERNAME_FIELD = 'username'
+    
 
     class Meta:
         verbose_name = _('user')
