@@ -33,7 +33,7 @@ class OnlyYouMixin(UserPassesTestMixin):
 class UserUpdateView(OnlyYouMixin, UpdateView):
     template_name = 'accounts/user_update.html'
     model = User
-    fields = ('username', 'email', 'icon', 'introduction')
+    fields = ('username', 'icon', 'introduction')
 
     def get_success_url(self):
         return reverse('accounts:profile', kwargs={'username': User.objects.get(pk=self.object.pk).username})
