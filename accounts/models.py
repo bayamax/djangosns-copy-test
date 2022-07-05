@@ -3,6 +3,7 @@ from django.contrib.auth.models import PermissionsMixin
 from django.db import models
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
+from community.models import Community
 
 # Create your models here.
 
@@ -75,3 +76,10 @@ class Connection(models.Model):
 
     def __str__(self):
         return "{} : {}".format(self.follower.username, self.following.username)
+
+class Mycommunity(models.Model):
+    mycommunity = models.ForeignKey(Community, related_name='mycommunity', on_delete=models.CASCADE)
+    follower = models.ForeignKey(User, related_name='follower', on_delete=models.CASCADE)
+
+    def __str__(self):
+        return "{}".format(self.mycommunity.username)

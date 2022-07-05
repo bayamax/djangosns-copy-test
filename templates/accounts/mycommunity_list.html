@@ -10,12 +10,12 @@
         <h2>{{ username }}さんのフォローリスト</h2>
     </div>
     <div>
-        {% if following %}
-        {% for fw in following %}
-        <a href="{% url 'accounts:profile' username=fw.following %}">{{ fw.following }}</a>
+        {% if mycommunity %}
+        {% for fw in mycommunity %}
+        <a href="{% url 'community:community_top' name=fw.mycommunity %}">{{ fw.mycommunity }}</a>
         {% endfor %}
         {% else %}
-        <p>まだ誰もフォローしていません</p>
+        <p>まだどこもフォローしていません</p>
         {% endif %}
     </div>
 

@@ -6,7 +6,8 @@ from django.shortcuts import render
 from post.models import Post
 from django.urls import reverse_lazy, reverse
 from django.http import HttpResponseRedirect
-from .models import User, Connection
+from .models import User, Connection, Mycommunity
+from community.models import Community
 from django.views.generic import UpdateView
 
 
@@ -17,6 +18,7 @@ def user_profile(request, username):
         'post_list': Post.objects.filter(author=user_model.id),
         'following': Connection.objects.filter(follower__username=username).count(),
         'follower': Connection.objects.filter(following__username=username).count(),
+        'mycommynity': Mycommunity.objects.filter(follower__username=username).count(),
     }
     if username is not request.user.username:
             result = Connection.objects.filter(follower__username=request.user.username).filter(following__username=username)
@@ -108,3 +110,53 @@ def follower_list(request, username):
         'follower': Connection.objects.filter(following__username=username),
     }
     return render(request, 'accounts/follower_list.html', context)
+
+@login_required
+def mycommunity_follow_view(request, comid):
+
+    try:
+        #request.user.username = ログインユーザーのユーザー名を渡す。
+        follower = User.objects.get(username=request.user.username)
+        #kwargs['username'] = フォロー対象のユーザー名を渡す。
+        mycommunity = Community.objects.get(id=comid)
+    #例外処理：もしフォロー対象が存在しない場合、警告文を表示させる。
+    except Community.DoesNotExist:
+        messages.warning(request, 'コミュニティーは存在しません')
+        return HttpResponseRedirect(reverse_lazy('post:post_list'))
+    #フォローしようとしている対象が自分の場合、警告文を表示させる。
+    
+    _, created = Mycommunity.objects.get_or_create(mycommunity=mycommunity, follower=follower)
+
+        #もしcreatedがTrueの場合、フォロー完了のメッセージを表示させる。
+    if (created):
+        messages.success(request, '{}をフォローしました'.format(mycommunity.name))
+        #既にフォロー相手をフォローしていた場合、createdにはFalseが入る。
+        #フォロー済みのメッセージを表示させる。
+    else:
+        messages.warning(request, 'あなたはすでに{}をフォローしています'.format(mycommunity.name))
+
+    return HttpResponseRedirect(reverse_lazy('accounts:profile', kwargs={'mycommunity': mycommunity.name}))
+
+"""フォロー解除"""
+@login_required
+def mycommunity_unfollow_view(request, comid):
+    try:
+        follower = User.objects.get(username=request.user.username)
+        mycommunity = Community.objects.get(id=comid)
+        unfollow = Mycommunity.objects.get(mycommunity=mycommunity,follower=follower)
+        unfollow.delete()
+        messages.success(request, 'あなたは{}のフォローを外しました'.format(mycommunity.name))
+    except Community.DoesNotExist:
+        messages.warning(request, 'コミュニティは存在しません')
+        return HttpResponseRedirect(reverse_lazy('post:post_list'))
+    except Mycommunity.DoesNotExist:
+        messages.warning(request, 'あなたは{0}をフォローしませんでした'.format(mycommunity.name))
+
+    return HttpResponseRedirect(reverse_lazy('accounts:profile', kwargs={'mycommunity': mycommunity.name}))
+
+def mycommunity_list(request, username):
+    context = {
+        'username': username,
+        'mycommunity': Mycommunity.objects.filter(follower__username=username),
+    }
+    return render(request, 'accounts/mycommunity_list.html', context)
