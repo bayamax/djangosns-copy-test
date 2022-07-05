@@ -38,6 +38,8 @@ INSTALLED_APPS = [
     'post.apps.PostConfig',
     'cafe.apps.CafeConfig',
     'community.apps.CommunityConfig',
+    'chat',
+    'channels',
 ]
 
 MIDDLEWARE = [
@@ -179,3 +181,5 @@ if not DEBUG:
 
     # HerokuのConfigを読み込み
     django_heroku.settings(locals())
+
+ASGI_APPLICATION = 'mysite.asgi.application'
