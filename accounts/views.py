@@ -136,21 +136,27 @@ def mycommunity_follow_view(request, comid):
     
     community = Community.objects.get(id=comid)
     name = community.name
-    return redirect('community:community_top', name=name)
+    return HttpResponseRedirect(reverse_lazy('community:community_top', kwargs={'name': name}))
 
 """フォロー解除"""
 @login_required
 def mycommunity_unfollow_view(request, comid):
     try:
-        follower = User.objects.filter(username=request.user.username)
-        mycommunity = Community.objects.filter(id=comid)
-        Mycommunity.objects.all().delete()
+        follower = User.objects.get(username=request.user.username)
+        mycommunity = Community.objects.get(id=comid)
+        unfollow = Mycommunity.objects.get(follower=follower, mycommunity=mycommunity)
+        #フォロワー(自分)×フォロー(相手)という組み合わせを削除する。
+        unfollow.delete()
         messages.success(request, 'あなたは{}のフォローを外しました'.format(mycommunity.name))
     except Community.DoesNotExist:
-        messages.warning(request, 'コミュニティは存在しません')
-        #return HttpResponseRedirect(reverse_lazy('post:post_list'))
-    name = mycommunity.name
-    return redirect('community:community_top', name=name)
+        messages.warning(request, '{}は存在しません'.format(mycommunity.name))
+        return HttpResponseRedirect(reverse_lazy('post:post_list'))
+    except Mycommunity.DoesNotExist:
+        messages.warning(request, 'あなたは{0}をフォローしませんでした'.format(mycommunity.name))
+    community = Community.objects.get(id=comid)
+    name = community.name
+
+    return HttpResponseRedirect(reverse_lazy('community:community_top', kwargs={'name': name}))
 
 def mycommunity_list(request, username):
     context = {

@@ -70,7 +70,6 @@ def post_list(request):
         popup = popup,
         icon=folium.Icon(color='red', icon='home')
         ).add_to(map)
-        plugins.LocateControl(auto_start=False).add_to(map)
     else:
         for l in Community.objects.all():
             name = l.name
@@ -85,7 +84,7 @@ def post_list(request):
             popup = popup,
             icon=folium.Icon(color='red', icon='home')
             ).add_to(map)
-            plugins.LocateControl(auto_start=False).add_to(map)
+    plugins.LocateControl(auto_start=False).add_to(map)
     map = map._repr_html_()
 
 

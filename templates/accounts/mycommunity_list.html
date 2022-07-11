@@ -9,10 +9,12 @@
     <div>
         <h2>{{ username }}さんのフォローリスト</h2>
     </div>
-    <div>
+    <div class="my-3 p-3 bg-body rounded shadow-sm">
         {% if mycommunity %}
         {% for fw in mycommunity %}
-        <a href="{% url 'community:community_top' name=fw.mycommunity %}">{{ fw.mycommunity }}</a>
+        <p class="pb-3 mb-0 small lh-sm border-bottom"></p>
+            <strong class="d-block text-gray-dark"></strong><a href="{% url 'community:community_top' name=fw.mycommunity %}">{{ fw.mycommunity }}</a></strong><br>
+        </p>
         {% endfor %}
         {% else %}
         <p>まだどこもフォローしていません</p>
